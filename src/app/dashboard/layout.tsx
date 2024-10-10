@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import Logo from "@/app/Assets/logo.png";
-import { DashboardLinks } from "../components/DashboardLInks";
+import { DashboardLinks } from "../components/DashboardLinks";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
