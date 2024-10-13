@@ -7,9 +7,38 @@ import GoogleLogo from "@/app/Assets/google.png";
 import GitHubLogo from "@/app/Assets/Github.jpeg";
 import Image from "next/image";
 
+interface formProps {
+  text: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null
+    | undefined;
+}
+
+export function SubmitButton({ text, variant }: formProps) {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <Button disabled variant="outline" className="w-full">
+          <Loader2 className="size-4 mr-2 animate-spin" /> Please Wait
+        </Button>
+      ) : (
+        <Button type="submit" variant={variant} className="w-full">
+          {text}
+        </Button>
+      )}
+    </>
+  );
+}
+
 export function GoogleAuthButton() {
   const { pending } = useFormStatus();
-
   return (
     <>
       {pending ? (
