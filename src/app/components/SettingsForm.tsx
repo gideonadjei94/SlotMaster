@@ -93,7 +93,7 @@ export function SettingsForm({ fullName, email, profileImage }: settingsProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <SubmitButton text="Save Changes" className="" />
+          <SubmitButton text="Save Changes" />
         </CardFooter>
       </form>
     </Card>
