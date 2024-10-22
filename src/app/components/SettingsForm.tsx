@@ -16,6 +16,9 @@ import { SettingsAction } from "../actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { settingsSchema } from "../utils/zodSchemas";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 interface settingsProps {
   fullName: string;
@@ -24,6 +27,7 @@ interface settingsProps {
 }
 export function SettingsForm({ fullName, email, profileImage }: settingsProps) {
   const [lastResult, action] = useFormState(SettingsAction, undefined);
+  const [currPorfileImage, setCurrProfileImage] = useState(profileImage);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -34,6 +38,9 @@ export function SettingsForm({ fullName, email, profileImage }: settingsProps) {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+  const handleDeleteImage = () => {
+    setCurrProfileImage("");
+  };
   return (
     <Card>
       <CardHeader>
@@ -60,6 +67,29 @@ export function SettingsForm({ fullName, email, profileImage }: settingsProps) {
               defaultValue={email}
               placeholder="example@gmail.com"
             />
+          </div>
+          <div className="grid gap-y-5">
+            <Label>Profile Image</Label>
+            {currPorfileImage ? (
+              <div className="relative size-16">
+                <img
+                  src={currPorfileImage}
+                  alt="Profile Image"
+                  className="size-16 rounded-lg"
+                />
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  className="absolute -top-3 -right-3"
+                  type="button"
+                  onClick={handleDeleteImage}
+                >
+                  <Trash2 className="size-4" />
+                </Button>
+              </div>
+            ) : (
+              <h1>No Image</h1>
+            )}
           </div>
         </CardContent>
         <CardFooter>
