@@ -18,7 +18,7 @@ interface formProps {
     | "link"
     | null
     | undefined;
-  className: string;
+  className?: string;
 }
 
 export function SubmitButton({ text, variant, className }: formProps) {
