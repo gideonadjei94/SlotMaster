@@ -71,7 +71,7 @@ export default function onboardingRoute() {
             </div>
           </CardContent>
           <CardFooter>
-            <SubmitButton text="Submit" />
+            <SubmitButton text="Submit" className="w-full" />
           </CardFooter>
         </form>
       </Card>

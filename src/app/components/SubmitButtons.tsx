@@ -18,18 +18,19 @@ interface formProps {
     | "link"
     | null
     | undefined;
+  className: string;
 }
 
-export function SubmitButton({ text, variant }: formProps) {
+export function SubmitButton({ text, variant, className }: formProps) {
   const { pending } = useFormStatus();
   return (
     <>
       {pending ? (
-        <Button disabled variant="outline" className="w-full">
+        <Button disabled variant="outline" className={className}>
           <Loader2 className="size-4 mr-2 animate-spin" /> Please Wait
         </Button>
       ) : (
-        <Button type="submit" variant={variant} className="w-full">
+        <Button type="submit" variant={variant} className={className}>
           {text}
         </Button>
       )}
