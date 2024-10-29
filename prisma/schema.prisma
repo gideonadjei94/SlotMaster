@@ -20,9 +20,8 @@ model User {
   grantEmail    String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+  availability  Availability[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -80,4 +79,27 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([userId, credentialID])
+}
+
+model Availability{
+  id String @id @default(uuid())
+  day Day
+  fromTime String
+  tillTime String
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User User?          @relation(fields: [userId], references: [id] )
+  userId String?
+}
+
+enum Day{
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
 }
