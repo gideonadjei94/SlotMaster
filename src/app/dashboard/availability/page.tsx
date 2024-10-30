@@ -1,3 +1,4 @@
+import { updateAvailabilityAction } from "@/app/actions";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/utils/db";
 import { requireUser } from "@/app/utils/hook";
@@ -44,19 +45,26 @@ export default async function AvailabilityRoute() {
         <CardDescription>
           Manage your availabilty in this section
         </CardDescription>
-        <form>
+        <form action={updateAvailabilityAction}>
           <CardContent className="flex flex-col gap-y-4">
             {data.map((item) => (
               <div
                 key={item.id}
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-4"
               >
+                <input type="hidden" name={`id-${item.id}`} value={item.id} />
                 <div className="flex items-center gap-x-3">
-                  <Switch defaultChecked={item.isActive} />
+                  <Switch
+                    defaultChecked={item.isActive}
+                    name={`isActive-${item.id}`}
+                  />
                   <p>{item.day}</p>
                 </div>
 
-                <Select defaultValue={item.fromTime}>
+                <Select
+                  defaultValue={item.fromTime}
+                  name={`fromTime-${item.id}`}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="From Time" />
                   </SelectTrigger>
@@ -71,7 +79,10 @@ export default async function AvailabilityRoute() {
                   </SelectContent>
                 </Select>
 
-                <Select defaultValue={item.tillTime}>
+                <Select
+                  defaultValue={item.tillTime}
+                  name={`tillTime-${item.id}`}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Till Time" />
                   </SelectTrigger>
