@@ -1,7 +1,12 @@
+"use client";
+import { SubmitButton } from "@/app/components/SubmitButtons";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/ButtonGroup";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,8 +22,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+import { useState } from "react";
+
+type videoCallProvider = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
 
 export default function NewEventRoute() {
+  const [activePlatform, setActivePlatform] = useState<videoCallProvider>();
   return (
     <div className="w-full h-full flex flex-1 items-center justify-center">
       <Card>
@@ -38,7 +48,7 @@ export default function NewEventRoute() {
               <Label>URL Slug</Label>
               <div className="flex rounded-md">
                 <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-muted bg-muted text-sm text-muted-foreground">
-                  SlotMaster.com/
+                  slotmaster.com/
                 </span>
                 <Input className="rounded-l-none" placeholder="Example-url-1" />
               </div>
@@ -66,7 +76,53 @@ export default function NewEventRoute() {
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="grid gap-y-2">
+              <Label>Video Call Provider</Label>
+              <ButtonGroup>
+                <Button
+                  type="button"
+                  className="w-full"
+                  onClick={() => setActivePlatform("Zoom Meeting")}
+                  variant={
+                    activePlatform === "Zoom Meeting" ? "secondary" : "outline"
+                  }
+                >
+                  Zoom
+                </Button>
+                <Button
+                  type="button"
+                  className="w-full"
+                  onClick={() => setActivePlatform("Google Meet")}
+                  variant={
+                    activePlatform === "Google Meet" ? "secondary" : "outline"
+                  }
+                >
+                  Google Meet
+                </Button>
+                <Button
+                  type="button"
+                  className="w-full"
+                  onClick={() => setActivePlatform("Microsoft Teams")}
+                  variant={
+                    activePlatform === "Microsoft Teams"
+                      ? "secondary"
+                      : "outline"
+                  }
+                >
+                  Microsoft Teams
+                </Button>
+              </ButtonGroup>
+            </div>
           </CardContent>
+
+          <CardFooter className="w-full flex justify-between">
+            <Button variant="secondary" asChild>
+              <Link href="/dashboard">Cancel</Link>
+            </Button>
+
+            <SubmitButton text="Create Event" />
+          </CardFooter>
         </form>
       </Card>
     </div>
