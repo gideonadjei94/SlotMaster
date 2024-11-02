@@ -1,4 +1,7 @@
 import { conformZodMessage } from "@conform-to/zod";
+import { Description } from "@radix-ui/react-dialog";
+import { url } from "inspector";
+import { title } from "process";
 import { z } from "zod";
 
 export const onboardingSchema = z.object({
@@ -63,4 +66,12 @@ export function onboardingSchemavalidation(options?: {
 export const settingsSchema = z.object({
   fullName: z.string().min(3).max(150),
   profileImage: z.string(),
+});
+
+export const eventTypeSchema = z.object({
+  title: z.string().min(3).max(150),
+  duration: z.number().min(15).max(60),
+  url: z.string().min(3).max(150),
+  description: z.string().min(3).max(300),
+  videoCallSoftware: z.string().min(3),
 });
