@@ -6,10 +6,10 @@ import { EmptyState } from "../components/EmptyState";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
+  EllipsisVertical,
   ExternalLink,
   Link2,
   Pen,
-  Settings,
   Trash2,
   Users2,
 } from "lucide-react";
@@ -87,7 +87,7 @@ export default async function DashboardPage() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="icon">
-                        <Settings className="size-4" />
+                        <EllipsisVertical className="size-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
