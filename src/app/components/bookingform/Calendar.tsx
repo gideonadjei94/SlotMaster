@@ -30,6 +30,7 @@ export function Calendar(props: CalendarProps<DateValue>) {
         prevButtonProps={prevButtonProps}
         nextButtonProps={nextButtonProps}
       />
+      <div className="flex gap-8"></div>
     </div>
   );
 }
