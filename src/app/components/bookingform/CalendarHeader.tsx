@@ -33,14 +33,14 @@ export function CalendarHeader({
         <h2>{calendarProps["aria-label"]}</h2>
       </VisuallyHidden>
 
-      <h2 className="font-semibold ml-2 flex-1">
+      <h2 className="font-semibold  flex-1">
         {monthName}{" "}
         <span className="text-muted-foreground text-sm font-medium">
           {year}
         </span>
       </h2>
 
-      <div className="flex items-center gap-2 ml-1">
+      <div className="flex items-center gap-2 ">
         <CalendarButton {...prevButtonProps}>
           <ChevronLeft className="size-4" />
         </CalendarButton>
