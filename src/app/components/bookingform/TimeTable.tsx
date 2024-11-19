@@ -131,6 +131,14 @@ export async function TimeTable({ selectedDate, userName }: TimeTableProps) {
           {format(selectedDate, "MMM. d")}
         </span>
       </p>
+
+      <div className="mt-3 max-h-[350px]">
+        {availableSlots.length > 0 ? (
+          <p>Available time slots</p>
+        ) : (
+          <p>No time slots available</p>
+        )}
+      </div>
     </div>
   );
 }
