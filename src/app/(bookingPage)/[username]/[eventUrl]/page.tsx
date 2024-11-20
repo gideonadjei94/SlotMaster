@@ -1,9 +1,12 @@
 import { Calendar } from "@/app/components/bookingform/Calendar";
 import { RenderCalendar } from "@/app/components/bookingform/RenderCalendar";
 import { TimeTable } from "@/app/components/bookingform/TimeTable";
+import { SubmitButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/utils/db";
 import { requireUser } from "@/app/utils/hook";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { CalendarX2, Clock, VideoIcon } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -49,7 +52,7 @@ export default async function BookingFormRoute({
   searchParams,
 }: {
   params: { username: string; eventUrl: string };
-  searchParams: { date?: string };
+  searchParams: { date?: string; time?: string };
 }) {
   const session = await requireUser();
   const data = await getData(params.eventUrl, params.username);
@@ -62,57 +65,79 @@ export default async function BookingFormRoute({
     day: "numeric",
     month: "long",
   }).format(selectedDate);
+
+  const showForm = !!searchParams.date && !!searchParams.time;
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
-      <Card className="max-w-[1000px] w-full mx-auto">
-        <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] gap-1">
-          <div>
-            <img
-              src={data.User?.image as string}
-              alt="UserProfile"
-              className="size-10 rounded-full"
-            />
+      {showForm ? (
+        <Card className="max-w-[600px] w-full">
+          <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr] gap-1">
+            <div>
+              <img
+                src={data.User?.image as string}
+                alt="UserProfile"
+                className="size-10 rounded-full"
+              />
 
-            <p className="text-sm font-medium text-muted-foreground mt-1">
-              {data.User?.name}
-            </p>
-            <h1 className="text-xl font-semibold mt-2">{data.title}</h1>
-            <p className="text-sm font-medium text-muted-foreground">
-              {data.description}
-            </p>
-
-            <div className="mt-5 flex flex-col gap-y-3">
-              <p className="flex items-center">
-                <CalendarX2 className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  {formattedDate}
-                </span>
+              <p className="text-sm font-medium text-muted-foreground mt-1">
+                {data.User?.name}
+              </p>
+              <h1 className="text-xl font-semibold mt-2">{data.title}</h1>
+              <p className="text-sm font-medium text-muted-foreground">
+                {data.description}
               </p>
 
-              <p className="flex items-center">
-                <Clock className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  {data.duration} Minutes
-                </span>
-              </p>
+              <div className="mt-5 flex flex-col gap-y-3">
+                <p className="flex items-center">
+                  <CalendarX2 className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {formattedDate}
+                  </span>
+                </p>
 
-              <p className="flex items-center">
-                <VideoIcon className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  {data.videoCallSoftware}
-                </span>
-              </p>
+                <p className="flex items-center">
+                  <Clock className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {data.duration} Minutes
+                  </span>
+                </p>
+
+                <p className="flex items-center">
+                  <VideoIcon className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {data.videoCallSoftware}
+                  </span>
+                </p>
+              </div>
             </div>
-          </div>
-          <Separator orientation="vertical" className="h-full w-[1px] " />
+            <Separator orientation="vertical" className="h-full w-[1px] " />
 
-          <RenderCalendar availability={data.User?.availability as any} />
+            <form className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-2">
+                <Label>Your Name</Label>
+                <Input placeholder="Your Name" type="text" />
+              </div>
+              <div className="flex flex-col gap-y-2">
+                <Label>Your Email</Label>
+                <Input placeholder="johndoe@example.com" type="email" />
+              </div>
+              <SubmitButton text="Book Meeting" />
+            </form>
 
-          <Separator orientation="vertical" className="h-full w-[1px] ml-2" />
+            {/* <RenderCalendar availability={data.User?.availability as any} />
 
-          <TimeTable selectedDate={selectedDate} userName={params.username} />
-        </CardContent>
-      </Card>
+            <Separator orientation="vertical" className="h-full w-[1px] ml-2" />
+
+            <TimeTable
+              selectedDate={selectedDate}
+              userName={params.username}
+              duration={data.duration}
+            /> */}
+          </CardContent>
+        </Card>
+      ) : (
+        <p>Inner form</p>
+      )}
     </div>
   );
 }

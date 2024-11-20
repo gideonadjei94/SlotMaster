@@ -1,5 +1,6 @@
 import prisma from "@/app/utils/db";
 import { nylas } from "@/app/utils/nylas";
+import { Button } from "@/components/ui/button";
 import { Prisma } from "@prisma/client";
 import {
   addMinutes,
@@ -9,6 +10,7 @@ import {
   isBefore,
   parse,
 } from "date-fns";
+import Link from "next/link";
 import { GetFreeBusyResponse, NylasResponse } from "nylas";
 
 async function getData(userName: string, selectedDate: Date) {
@@ -55,6 +57,7 @@ async function getData(userName: string, selectedDate: Date) {
 interface TimeTableProps {
   selectedDate: Date;
   userName: string;
+  duration: number;
 }
 
 function calculateAvailableTimeSlots(
@@ -109,7 +112,11 @@ function calculateAvailableTimeSlots(
   return freeSlots.map((slot) => format(slot, "HH:mm"));
 }
 
-export async function TimeTable({ selectedDate, userName }: TimeTableProps) {
+export async function TimeTable({
+  selectedDate,
+  userName,
+  duration,
+}: TimeTableProps) {
   const { data, nylasCalendarData } = await getData(userName, selectedDate);
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
   const dbAvailability = {
@@ -120,7 +127,7 @@ export async function TimeTable({ selectedDate, userName }: TimeTableProps) {
     formattedDate,
     dbAvailability,
     nylasCalendarData,
-    30
+    duration
   );
 
   return (
@@ -132,9 +139,18 @@ export async function TimeTable({ selectedDate, userName }: TimeTableProps) {
         </span>
       </p>
 
-      <div className="mt-3 max-h-[350px]">
+      <div className="mt-3 max-h-[350px] overflow-y-auto">
         {availableSlots.length > 0 ? (
-          <p>Available time slots</p>
+          availableSlots.map((slot, index) => (
+            <Link
+              href={`?date=${format(selectedDate, "yyyy-MM-dd")}&time=${slot}`}
+              key={index}
+            >
+              <Button className="w-full mb-2" variant="outline">
+                {slot}
+              </Button>
+            </Link>
+          ))
         ) : (
           <p>No time slots available</p>
         )}
