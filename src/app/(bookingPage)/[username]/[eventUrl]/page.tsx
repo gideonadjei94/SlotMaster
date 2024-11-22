@@ -1,3 +1,4 @@
+import { CreateMeetingAction } from "@/app/actions";
 import { Calendar } from "@/app/components/bookingform/Calendar";
 import { RenderCalendar } from "@/app/components/bookingform/RenderCalendar";
 import { TimeTable } from "@/app/components/bookingform/TimeTable";
@@ -70,7 +71,7 @@ export default async function BookingFormRoute({
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       {showForm ? (
-        <Card className="max-w-[600px] w-full">
+        <Card className="max-w-[600px]">
           <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr] gap-1">
             <div>
               <img
@@ -112,19 +113,81 @@ export default async function BookingFormRoute({
             </div>
             <Separator orientation="vertical" className="h-full w-[1px] " />
 
-            <form className="flex flex-col gap-y-4">
+            <form
+              className="flex flex-col gap-y-4"
+              action={CreateMeetingAction}
+            >
+              <input type="hidden" name="fromTime" value={searchParams.time} />
+              <input type="hidden" name="eventDate" value={searchParams.date} />
+              <input type="hidden" name="meetingLength" value={data.duration} />
+              <input
+                type="hidden"
+                name="provider"
+                value={data.videoCallSoftware}
+              />
+              <input type="hidden" name="username" value={params.username} />
+              <input type="hidden" name="eventTypeId" value={data.id} />
+
               <div className="flex flex-col gap-y-2">
                 <Label>Your Name</Label>
-                <Input placeholder="Your Name" type="text" />
+                <Input placeholder="Your Name" type="text" name="name" />
               </div>
               <div className="flex flex-col gap-y-2">
                 <Label>Your Email</Label>
-                <Input placeholder="johndoe@example.com" type="email" />
+                <Input
+                  placeholder="johndoe@example.com"
+                  type="email"
+                  name="email"
+                />
               </div>
               <SubmitButton text="Book Meeting" />
             </form>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="w-full max-w-[1000px] mx-auto">
+          <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] gap-1">
+            <div>
+              <img
+                src={data.User?.image as string}
+                alt="UserProfile"
+                className="size-10 rounded-full"
+              />
 
-            {/* <RenderCalendar availability={data.User?.availability as any} />
+              <p className="text-sm font-medium text-muted-foreground mt-1">
+                {data.User?.name}
+              </p>
+              <h1 className="text-xl font-semibold mt-2">{data.title}</h1>
+              <p className="text-sm font-medium text-muted-foreground">
+                {data.description}
+              </p>
+
+              <div className="mt-5 flex flex-col gap-y-3">
+                <p className="flex items-center">
+                  <CalendarX2 className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {formattedDate}
+                  </span>
+                </p>
+
+                <p className="flex items-center">
+                  <Clock className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {data.duration} Minutes
+                  </span>
+                </p>
+
+                <p className="flex items-center">
+                  <VideoIcon className="size-4 mr-2 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {data.videoCallSoftware}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <Separator orientation="vertical" className="h-full w-[1px] " />
+
+            <RenderCalendar availability={data.User?.availability as any} />
 
             <Separator orientation="vertical" className="h-full w-[1px] ml-2" />
 
@@ -132,11 +195,9 @@ export default async function BookingFormRoute({
               selectedDate={selectedDate}
               userName={params.username}
               duration={data.duration}
-            /> */}
+            />
           </CardContent>
         </Card>
-      ) : (
-        <p>Inner form</p>
       )}
     </div>
   );
