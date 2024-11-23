@@ -23,6 +23,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CopyLinkMenuItem } from "../components/CopyLinkMenu";
+import { MenuActiveSwitch } from "../components/EventTypeSwitch";
 
 async function getData(userId: string) {
   const data = await prisma.user?.findUnique({
@@ -104,13 +106,15 @@ export default async function DashboardPage() {
                           </Link>
                         </DropdownMenuItem>
 
-                        <DropdownMenuItem>
-                          <Link2 className="mr-2 size-4" />
-                          Copy
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Pen className="mr-2 size-4" />
-                          Edit
+                        <CopyLinkMenuItem
+                          meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.userName}/${event.url}`}
+                        />
+
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/event/${event.id}`}>
+                            <Pen className="mr-2 size-4" />
+                            Edit
+                          </Link>
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
@@ -137,8 +141,16 @@ export default async function DashboardPage() {
                 </Link>
 
                 <div className="bg-muted px-5 py-3 flex justify-between items-center">
-                  <Switch />
-                  <Button>Edit Event</Button>
+                  <MenuActiveSwitch
+                    initialChecked={event.active}
+                    eventTypeId={event.id}
+                  />
+
+                  <Button asChild>
+                    <Link href={`/dashboard/event/${event.id}`}>
+                      Edit Event
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}
