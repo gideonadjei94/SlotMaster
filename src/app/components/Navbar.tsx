@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/app/Assets/logo.png";
 import { AuthModal } from "./AuthModal";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
   return (
@@ -12,7 +13,11 @@ export function Navbar() {
           Slot<span className="text-blue-600">Master</span>
         </h4>
       </Link>
-      <AuthModal />
+
+      <div className="hidden md:flex md:justify-end md:space-x-4">
+        <ThemeToggle />
+        <AuthModal />
+      </div>
     </div>
   );
 }
