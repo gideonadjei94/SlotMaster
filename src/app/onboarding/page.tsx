@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -17,7 +16,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { onboardingSchema } from "../utils/zodSchemas";
 import { SubmitButton } from "../components/SubmitButtons";
 
-export default function onboardingRoute() {
+export default function OnboardingRoute() {
   const [lastResult, action] = useFormState(OnboardingAction, undefined);
   const [form, fields] = useForm({
     lastResult,
