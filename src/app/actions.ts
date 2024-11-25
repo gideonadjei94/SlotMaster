@@ -5,7 +5,6 @@ import { requireUser } from "./utils/hook";
 import { parseWithZod } from "@conform-to/zod";
 import {
   eventTypeSchema,
-  onboardingSchema,
   onboardingSchemavalidation,
   settingsSchema,
 } from "./utils/zodSchemas";
@@ -111,7 +110,6 @@ export async function SettingsAction(prevState: any, formData: FormData) {
 }
 
 export async function updateAvailabilityAction(formData: FormData) {
-  const session = await requireUser();
   const rawData = Object.fromEntries(formData.entries());
 
   const availability = Object.keys(rawData)

@@ -1,5 +1,4 @@
 import { CreateMeetingAction } from "@/app/actions";
-import { Calendar } from "@/app/components/bookingform/Calendar";
 import { RenderCalendar } from "@/app/components/bookingform/RenderCalendar";
 import { TimeTable } from "@/app/components/bookingform/TimeTable";
 import { SubmitButton } from "@/app/components/SubmitButtons";
@@ -55,7 +54,6 @@ export default async function BookingFormRoute({
   params: { username: string; eventUrl: string };
   searchParams: { date?: string; time?: string };
 }) {
-  const session = await requireUser();
   const data = await getData(params.eventUrl, params.username);
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)

@@ -61,15 +61,18 @@ export default async function MeetingsRoute() {
           </CardHeader>
           <CardContent>
             {data.data.map((item) => (
-              <form action={cancelMeetingAction}>
+              <form action={cancelMeetingAction} key={item.id}>
                 <input type="hidden" name="eventId" value={item.id} />
                 <div className="grid grid-cols-3 justify-between items-center">
                   <div>
                     <p className="text-sm text-muted-foreground">
+                      {/* @ts-ignore */}
                       {format(fromUnixTime(item.when.startTime), "EEE, dd MMM")}
                     </p>
                     <p className="text-muted-foreground text-xs pt-1">
-                      {format(fromUnixTime(item.when.startTime), "hh:mm a")} -{" "}
+                      {/* @ts-ignore */}
+                      {format(fromUnixTime(item.when.startTime), "hh:mm a")} -
+                      {/* @ts-ignore */}
                       {format(fromUnixTime(item.when.endTime), "hh:mm a")}{" "}
                     </p>
 
@@ -77,6 +80,7 @@ export default async function MeetingsRoute() {
                       <Video className="size-4 mr-2 text-primary" />
 
                       <a
+                        //@ts-ignore
                         href={item.conferencing.details.url}
                         className="text-xs text-primary underline underline-offset-4"
                       >
