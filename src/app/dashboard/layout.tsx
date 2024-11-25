@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
-import Logo from "@/app/Assets/logo.png";
+import Logo from "@/app/Logo.png";
 import { DashboardLinks } from "../components/DashboardLinks";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";

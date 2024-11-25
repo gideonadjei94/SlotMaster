@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/app/Assets/logo.png";
+import Logo from "@/app/Logo.png";
 import { AuthModal } from "./AuthModal";
 import { ThemeToggle } from "./ThemeToggle";
 
